@@ -30,7 +30,7 @@ public class Book {
 	protected String year;
 	protected Double rating;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
 	@JoinTable(name = "Book_Author", joinColumns = {
 			@JoinColumn(name = "Book_id", nullable=false, updatable=false)},
 			inverseJoinColumns = {
@@ -39,7 +39,7 @@ public class Book {
 	)
 	protected List<Author> authors; 
 	
-	@ManyToOne(cascade = CascadeType.REFRESH, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch=FetchType.EAGER)
 	protected Genre genre;
 
 	public Long getId() {

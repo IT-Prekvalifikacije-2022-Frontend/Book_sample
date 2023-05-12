@@ -92,7 +92,7 @@ public class BookController {
 	public ResponseEntity<BookDTO> removeBook(@PathVariable Long id) {
 		Optional<Book> o = bookRepository.findById(id);
 		if(o.isPresent()){
-			genreRepository.deleteById(id);
+			bookRepository.deleteById(id);
 			return new ResponseEntity<BookDTO>(new BookDTO(o.get()), HttpStatus.OK);
 		}else{
 			return new ResponseEntity<BookDTO>(HttpStatus.NOT_FOUND);
@@ -130,7 +130,7 @@ public class BookController {
 				}
 			}
 			bookRepository.save(b);		
-			return new ResponseEntity<BookDTO>(new BookDTO(b), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<BookDTO>(new BookDTO(b), HttpStatus.OK);
 		}else{
 			return new ResponseEntity<BookDTO>(HttpStatus.NOT_FOUND);
 		}
