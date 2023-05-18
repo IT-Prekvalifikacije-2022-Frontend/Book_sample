@@ -1,6 +1,7 @@
 package com.iktpreobuka.book_sample.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,18 @@ public class GenreController {
 	GenreRepository genreRepository;
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public GenreDTO createGenre(@RequestBody Genre genre) {
-		Genre g = new Genre();		
-		g.setName(genre.getName());
-		genreRepository.save(g);
-		return new GenreDTO(g);
+	public ResponseEntity<GenreDTO> createGenre(@RequestBody Genre genre) {
+		List<Genre> existingGenre = genreRepository.findByName(genre.getName());
+
+		if(!existingGenre.isEmpty()){
+			return new ResponseEntity<GenreDTO>(HttpStatus.CONFLICT);
+		}else{
+			Genre g = new Genre();
+			g.setName(genre.getName());
+			genreRepository.save(g);
+			return new ResponseEntity<GenreDTO>(new GenreDTO(g), HttpStatus.CREATED);
+		}
+
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
